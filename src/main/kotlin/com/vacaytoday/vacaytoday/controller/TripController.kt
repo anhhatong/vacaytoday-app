@@ -1,10 +1,12 @@
 package com.vacaytoday.vacaytoday.controller
 
 import com.vacaytoday.vacaytoday.models.Trip
+import com.vacaytoday.vacaytoday.security.toUser
 import com.vacaytoday.vacaytoday.services.TripService
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -16,7 +18,8 @@ class TripController {
     lateinit var tripService: TripService
 
     @PostMapping("/trips")
-    fun createTrip(@Valid @RequestBody aTrip: Trip) : Trip {
+    fun createTrip(authentication: Authentication, @Valid @RequestBody aTrip: Trip) : Trip {
+        val authenticatedUser = authentication.toUser()
         return tripService.createTrip(aTrip)
     }
 
